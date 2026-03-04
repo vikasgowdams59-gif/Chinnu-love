@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Chinnu 😘🫂🌏🫀</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#0f0c29,#302b63,#24243e);
+  font-family:Arial, sans-serif;
+  color:white;
+}
+
+/* Canvas fireworks */
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
+
+/* Password Screen */
+#lockScreen{
+  position:absolute;
+  text-align:center;
+}
+
+input{
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  text-align:center;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+#mainContent{
+  display:none;
+  position:absolute;
+  text-align:center;
+}
+
+/* Gift box */
+.box{
+  position:relative;
+  width:200px;
+  height:200px;
+  cursor:pointer;
+  margin:auto;
+}
+
+.box-base{
+  width:200px;
+  height:200px;
+  background:#ff004f;
+  border-radius:15px;
+  position:absolute;
+}
+
+.lid{
+  width:220px;
+  height:60px;
+  background:#cc0033;
+  border-radius:15px;
+  position:absolute;
+  top:-50px;
+  left:-10px;
+  transition:1s;
+  transform-origin:bottom;
+}
+
+.open .lid{
+  transform:rotateX(-130deg);
+}
+
+@keyframes shake{
+0%{transform:rotate(0);}
+25%{transform:rotate(-6deg);}
+50%{transform:rotate(6deg);}
+75%{transform:rotate(-6deg);}
+100%{transform:rotate(0);}
+}
+.shake{animation:shake 0.6s;}
+
+.letter{
+  display:none;
+  background:white;
+  color:#ff004f;
+  padding:20px;
+  border-radius:20px;
+  margin-top:20px;
+  max-width:320px;
+}
+
+.result{
+  margin-top:10px;
+  font-weight:bold;
+  color:#ff004f;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div id="lockScreen">
+  <h2>Enter Password 💖</h2>
+  <input type="password" id="passwordInput" placeholder="Enter Secret">
+  <br>
+  <button onclick="checkPassword()">Unlock 💌</button>
+  <p id="error"></p>
+</div>
+
+<div id="mainContent">
+  <div class="box" id="giftBox">
+    <div class="lid"></div>
+    <div class="box-base"></div>
+  </div>
+
+  <div class="letter" id="letter">
+    <h3>Advance Happy Birthday Chinnu 😘🫂🌏🫀</h3>
+    <p>
+    Advance happy birthday my Chinnu 😘🫂🌏🫀. Even before your special day arrives, my heart cannot wait to celebrate you. You are the most beautiful blessing in my life, the reason behind my smile, and the peace my soul always searches for. Your laughter heals me, your love strengthens me, and your presence makes everything brighter. I feel lucky every single day to walk beside you and call you mine. I promise to protect your heart, support your dreams, and cherish you forever. No matter what happens, my love for you will only grow stronger with time.
+    </p>
+
+    <h4>Will You Always Be Mine? 💍</h4>
+    <button onclick="sayYes()">YES 💖</button>
+    <button onclick="moveNo(this)">NO 🙈</button>
+
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<script>
+/* PASSWORD */
+function checkPassword(){
+  const correctPassword="Chinnu2803";
+  const entered=document.getElementById("passwordInput").value;
+
+  if(entered===correctPassword){
+    document.getElementById("lockScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+  } else {
+    document.getElementById("error").innerText="Wrong password 😜 Try again!";
+  }
+}
+
+/* Gift box */
+let clicks=0;
+const box=document.getElementById("giftBox");
+const letter=document.getElementById("letter");
+
+box.addEventListener("click",function(){
+  clicks++;
+  box.classList.add("shake");
+  setTimeout(()=>box.classList.remove("shake"),600);
+
+  if(clicks>=2){
+    box.classList.add("open");
+    startFireworks();
+    setTimeout(()=>{
+      letter.style.display="block";
+    },800);
+  }
+});
+
+/* Proposal */
+function sayYes(){
+  document.getElementById("result").innerHTML="You are mine foreverrrr 😘🫂🌏🫀";
+  startFireworks();
+}
+
+function moveNo(btn){
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*80+"%";
+  btn.style.top=Math.random()*80+"%";
+}
+
+/* FIREWORKS SYSTEM */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function startFireworks(){
+  explode(Math.random()*canvas.width,Math.random()*canvas.height/2);
+}
+
+function explode(x,y){
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:x,
+      y:y,
+      radius:2,
+      color:`hsl(${Math.random()*360},100%,60%)`,
+      speedX:(Math.random()-0.5)*6,
+      speedY:(Math.random()-0.5)*6,
+      life:100
+    });
+  }
+}
+
+function animate(){
+  requestAnimationFrame(animate);
+  ctx.fillStyle="rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach((p,index)=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.fill();
+    p.x+=p.speedX;
+    p.y+=p.speedY;
+    p.life--;
+    if(p.life<=0){particles.splice(index,1);}
+  });
+}
+animate();
+</script>
+
+</body>
+</html>
